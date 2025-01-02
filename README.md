@@ -1,178 +1,193 @@
 # YKSwiftNetworking
-[![CI Status](https://img.shields.io/travis/534272374@qq.com/YKSwiftNetworking.svg?style=flat)](https://travis-ci.org/534272374@qq.com/YKSwiftNetworking)
+
+[![CI Status](https://img.shields.io/travis/com/{username}/YKSwiftNetworking.svg?style=flat)](https://travis-ci.com/541278903/YKSwiftNetworking)
 [![Version](https://img.shields.io/cocoapods/v/YKSwiftNetworking.svg?style=flat)](https://cocoapods.org/pods/YKSwiftNetworking)
 [![License](https://img.shields.io/cocoapods/l/YKSwiftNetworking.svg?style=flat)](https://cocoapods.org/pods/YKSwiftNetworking)
 [![Platform](https://img.shields.io/cocoapods/p/YKSwiftNetworking.svg?style=flat)](https://cocoapods.org/pods/YKSwiftNetworking)
-## 介绍
 
-* 基于Alamofire的二次封装
-* 链式编程
-* 添加对RxSwift的拓展
+基于 Alamofire 的 Swift 网络请求封装库，支持链式调用和 RxSwift 集成。
 
-## 引入 YKSwiftNetworking
+## 核心功能
 
-```
-pod 'YKSwiftNetWorking'
-```
+### 基础网络请求
+- 支持 GET/POST 请求
+- 链式编程风格
+- 可配置默认请求头和参数
+- 支持 URL 前缀配置
+- 统一的响应处理机制
 
-### 开始使用
+### 请求配置
+1. 请求参数设置
+   - 动态参数添加
+   - 自定义请求头
+   - 请求体（Body）配置
+   - 请求编码方式设置
 
-#### 初始化
+2. 文件传输
+   - 文件上传（支持图片等多媒体文件）
+   - 文件下载（支持自定义下载路径）
 
-###### 默认初始化
+3. 进度监控
+   - 上传/下载进度回调
+   - 实时进度展示
 
-```
-var normalnetwork = YKSwiftNetworking.init()
-```
+### 高级特性
+- RxSwift 支持
+- 请求模拟数据支持（Mock Data）
+- 灵活的请求协议配置
 
-###### 复杂初始化
+## 技术特点
+- 基于 Alamofire 封装
+- 支持 CocoaPods 集成
+- 链式调用 API 设计
+- 完善的类型支持
 
-```
-var normalnetwork = YKSwiftNetworking.init(["header":"header"],["param":"param"]) { request, response in
-    return nil
-}
-```
+## 主要 API
 
-###### 参数
-
-| 参数           | 类型                                                         | 名称                       | 备注                                                         |
-| -------------- | ------------------------------------------------------------ | -------------------------- | ------------------------------------------------------------ |
-| defaultHeader  | [String:String]                                              | 默认头部                   | 本对象所发起的所有请求均加入本次的默认头部                   |
-| defaultParams  | [String:Any]                                                 | 默认参数                   | 本对象所发起的所有请求均加入本次的默认参数                   |
-| prefixUrl      | String                                                       | 默认请求url前缀            | 本对象所发起的所有请求均已此为前缀后续所发起的所有请求均只需要设置路由即可 |
-| handleResponse | (_ response:YKSwiftNetworkResponse, _ request:YKSwiftNetworkRequest)->Error? | 默认请求成功执行的回调信息 | 本对象所发起的所有请求均使用本次设置的回调响应Block，即每次请求响应成功后即会执行本回调，即能及时对请求数据进行预处理 |
-
-##### 选择模式及设置地址
-
-###### 详细设置
-
-```
-GET模式
-normalnetwork = normalnetwork.method(.GET).url("https://ios.tipsoon.com")
-POST模式
-normalnetwork = normalnetwork.method(.POST).url("https://ios.tipsoon.com")
+### 初始化方式
+1. 基础初始化
+```swift
+YKSwiftNetworking.init()
 ```
 
-###### 快捷设置
-
-```
-GET模式
-normalnetwork = normalnetwork.get("https://ios.tipsoon.com")
-POST模式
-normalnetwork = normalnetwork.post("https://ios.tipsoon.com")
-```
-
-| 参数   | 类型   | 名称 | 备注                       |
-| ------ | ------ | ---- | -------------------------- |
-| method | String | 模式 | 本对象的本次发起的请求模式 |
-| url    | String | 地址 |                            |
-
-###### 添加动态参数
-
-```
-normalnetwork = normalnetwork.params(["paramKey":"paramValue"])
+2. 高级初始化
+```swift
+YKSwiftNetworking.init(
+    defaultHeader: [String: String],
+    defaultParams: [String: Any],
+    handleResponse: (YKSwiftNetworkResponse, YKSwiftNetworkRequest) -> Error?
+)
 ```
 
-| 参数   | 类型         | 名称     | 备注                                   |
-| ------ | ------------ | -------- | -------------------------------------- |
-| params | [String:Any] | 动态参数 | 本对象的本次发起的请求所添加的动态参数 |
+### 请求配置 API
+- `.method(.post)` - 设置请求方法
+  ```swift
+  networking.method(.post)
+  ```
 
-###### 添加请求头
+- `.url("https://api.example.com/users")` - 设置请求 URL
+  ```swift
+  networking.url("https://api.example.com/users")
+  ```
 
+- `.params(["page": 1, "limit": 20])` - 设置请求参数
+  ```swift
+  networking.params(["page": 1, "limit": 20])
+  ```
+
+- `.header(["Authorization": "Bearer token"])` - 设置请求头
+  ```swift
+  networking.header(["Authorization": "Bearer token"])
+  ```
+
+- `.progress { progress in print("进度: \(progress)") }` - 设置进度回调
+  ```swift
+  networking.progress { progress in
+      print("进度: \(progress)")
+  }
+  ```
+
+- `.encoding(.json)` - 设置请求编码
+  ```swift
+  networking.encoding(.json)
+  ```
+
+- `.mockData(MockResponse())` - 设置模拟数据
+  ```swift
+  networking.mockData(MockResponse())
+  ```
+
+- `.httpBody(jsonData)` - 设置请求体
+  ```swift
+  networking.httpBody(jsonData)
+  ```
+
+- `.uploadData(imageData, name: "avatar")` - 配置上传请求
+  ```swift
+  networking.uploadData(imageData, name: "avatar")
+  ```
+
+- `.downloadDestPath("/Downloads/file.pdf")` - 配置下载路径
+  ```swift
+  networking.downloadDestPath("/Downloads/file.pdf")
+  ```
+
+### 上传请求示例
+```swift
+// 单图片上传
+let imageData = UIImage(named: "avatar")?.jpegData(compressionQuality: 0.8)
+YKSwiftNetworking()
+    .url("https://api.example.com/upload/avatar")
+    .method(.post)
+    .uploadData(imageData, name: "avatar", mimeType: "image/jpeg")
+    .progress { progress in
+        print("上传进度：\(progress * 100)%")
+    }
+    .request { response in
+        switch response {
+        case .success(let data):
+            print("上传成功：\(data)")
+        case .failure(let error):
+            print("上传失败：\(error)")
+        }
+    }
+
+// 多图片上传
+let images = [
+    ("photo1", UIImage(named: "photo1")?.jpegData(compressionQuality: 0.8)),
+    ("photo2", UIImage(named: "photo2")?.jpegData(compressionQuality: 0.8))
+]
+
+YKSwiftNetworking()
+    .url("https://api.example.com/upload/photos")
+    .method(.post)
+    .params(["albumId": "123"]) // 附加参数
+    .header(["Authorization": "Bearer token123"])
+    .uploadMultiData(images.compactMap { name, data in
+        data.map { (name, $0, "image/jpeg") }
+    })
+    .progress { progress in
+        print("批量上传进度：\(progress * 100)%")
+    }
+    .request { response in
+        switch response {
+        case .success(let data):
+            print("批量上传成功：\(data)")
+        case .failure(let error):
+            print("批量上传失败：\(error)")
+        }
+    }
+
+// 文件上传（如 PDF）
+let fileURL = Bundle.main.url(forResource: "document", withExtension: "pdf")!
+let fileData = try! Data(contentsOf: fileURL)
+
+YKSwiftNetworking()
+    .url("https://api.example.com/upload/document")
+    .method(.post)
+    .uploadData(fileData, name: "document", fileName: "document.pdf", mimeType: "application/pdf")
+    .header([
+        "Content-Type": "multipart/form-data",
+        "Authorization": "Bearer token123"
+    ])
+    .progress { progress in
+        print("文件上传进度：\(progress * 100)%")
+    }
+    .request { response in
+        switch response {
+        case .success(let data):
+            print("文件上传成功：\(data)")
+        case .failure(let error):
+            print("文件上传失败：\(error)")
+        }
+    }
 ```
-normalnetwork = normalnetwork.header(["headerKey":"headerValue"])
-```
 
-| 参数   | 类型            | 名称       | 备注                                     |
-| ------ | --------------- | ---------- | ---------------------------------------- |
-| header | [String:String] | 动态请求头 | 本对象的本次发起的请求所添加的动态请求头 |
 
-###### 设置请求进度回调
 
-```
-normalnetwork = normalnetwork.progress({ progress in
-        //progress 进度的百分比
-})
-```
-
-| 参数     | 类型                      | 名称         | 备注                             |
-| -------- | ------------------------- | ------------ | -------------------------------- |
-| progress | (_ progress:Double)->Void | 请求进度回调 | 本对象的本次发起的请求的请求进度 |
-
-###### 设置请求实现的协议
-
-```
-normalnetwork = normalnetwork.encoding(.URLEncoding)
-```
-
-| 参数     | 类型                          | 名称     | 备注                         |
-| -------- | ----------------------------- | -------- | ---------------------------- |
-| encoding | YKSwiftNetworkRequestEncoding | 请求协议 | 本对象的本次发起的请求的协议 |
-
-###### 设置请求模拟数据
-
-```
-normalnetwork = normalnetwork.mockData(Any)
-```
-
-| 参数     | 类型 | 名称         | 备注                         |
-| -------- | ---- | ------------ | ---------------------------- |
-| mockData | Any  | 请求模拟数据 | 本对象的本次请求模拟回调内容 |
-
-###### 设置请求往body中添加内容
-
-```
-normalnetwork = normalnetwork.httpBody(Data.init(base64Encoded: "{\"test\":\"1\"}"))
-```
-
-| 参数     | 类型  | 名称             | 备注                                 |
-| -------- | ----- | ---------------- | ------------------------------------ |
-| httpBody | Data? | 请求body加入内容 | 本对象的本次发起的请求加入body的内容 |
-
-###### 设置请求为上传请求
-
-```
-let data = UIImageJPEGRepresentation(UIImage.init(named: "test.jpg")!, 0.1)!
-normalnetwork = normalnetwork.uploadData(data: data, filename: "text.jpeg", mimeType: "image/jpeg", formDataName: "file")
-```
-
-| 参数         | 类型   | 名称               | 备注                       |
-| ------------ | ------ | ------------------ | -------------------------- |
-| data         | Data   | 上传的二进制数据   |                            |
-| filename     | String | 文件名             | 如：text.jpeg              |
-| mimeType     | String | 文件分类名         | 如：image/jpeg             |
-| formDataName | String | 当前数据的参数名称 | 后端根据此字段获取响应数据 |
-
-###### 设置请求为下载请求
-
-```
-normalnetwork = normalnetwork.downloadDestPath("download/jpeg")
-```
-
-| 参数             | 类型   | 名称     | 备注                                                |
-| ---------------- | ------ | -------- | --------------------------------------------------- |
-| downloadDestPath | String | 路径path | 最终完整的下载路径为cache+'设置的path'+‘下载文件名' |
-
-## 引入RxSwift
-
-```
-pod 'YKSwiftNetWorking/RxSwift'
-```
-
-## 开始
-
-```
-//唯一跟普通的区别在执行的内容
-var normalnetwork = YKSwiftNetworking.init()
-
-//产生请求报文
-let single = normalnetwork.rx.request()
-
-//申请请求
-single.subscribe(onNext: { data in
-
-}).dispose()
-```
+### RxSwift 支持
+- 提供 RxSwift 扩展
+- 支持响应式请求处理
 
 
 
