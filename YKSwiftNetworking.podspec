@@ -30,11 +30,5 @@ Pod::Spec.new do |s|
     ss.dependency  'Alamofire', "~> 5.0"
     ss.source_files = 'Sources/YKSwiftNetworking/**/*'
   end
-  
-  s.subspec 'RxSwift' do |ss|
-    ss.dependency  'YKSwiftNetworking/Core'
-    ss.dependency  'RxSwift', "~> 6.0"
-    ss.source_files = 'RxSources/YKSwiftNetworkingRxSwift/**/*'
-  end
     
 end
