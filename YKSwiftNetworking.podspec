@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'YKSwiftNetworking'
-  s.version          = '3.3.3'
+  s.version          = '3.3.4'
   s.summary          = 'swift网络请求框架'
 
 
@@ -16,10 +16,10 @@ Pod::Spec.new do |s|
           swift网络请求框架
                        DESC
 
-  s.homepage         = 'https://github.com/541278903/YKSwiftNetworking'
+  s.homepage         = 'https://github.com/yykedward/YKSwiftNetworking'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { '1130484708@qq.com' => '1130484708@qq.com' }
-  s.source           = { :git => 'https://github.com/541278903/YKSwiftNetworking.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/yykedward/YKSwiftNetworking.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '10.0'
   s.swift_version = '5.3'

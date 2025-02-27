@@ -1,6 +1,6 @@
 # YKSwiftNetworking
 
-[![CI Status](https://img.shields.io/travis/com/{username}/YKSwiftNetworking.svg?style=flat)](https://travis-ci.com/541278903/YKSwiftNetworking)
+[![CI Status](https://img.shields.io/travis/com/{username}/YKSwiftNetworking.svg?style=flat)](https://travis-ci.com/yykedward/YKSwiftNetworking)
 [![Version](https://img.shields.io/cocoapods/v/YKSwiftNetworking.svg?style=flat)](https://cocoapods.org/pods/YKSwiftNetworking)
 [![License](https://img.shields.io/cocoapods/l/YKSwiftNetworking.svg?style=flat)](https://cocoapods.org/pods/YKSwiftNetworking)
 [![Platform](https://img.shields.io/cocoapods/p/YKSwiftNetworking.svg?style=flat)](https://cocoapods.org/pods/YKSwiftNetworking)
